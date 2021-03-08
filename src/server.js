@@ -1,10 +1,11 @@
 const express = require('express')
 const routes = require('./routes')
 const mongoose = require('mongoose')
+require('dotenv/config')
 
 const server = express()
 
-mongoose.connect('mongodb+srv://SamuelBelo:7520@cluster0.scip8.mongodb.net/teamUp?retryWrites=true&w=majority', { 
+mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING, { 
     useNewUrlParser: true, 
     useUnifiedTopology: true
 })

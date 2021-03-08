@@ -2,13 +2,18 @@ const User = require('../models/userModel')
 
 module.exports= {
     async searchByGames(req, res) {
-        let searchedGame = req.query.game
-        let results = await User.find({
-            games: {
-                $in: searchedGame
-            }
-        })
+        try {
+            let {games} = req.query
 
-        return res.json(results)
+            let results = await User.find({
+                games: {
+                    $in: games
+                }
+            })
+        
+            return res.json({results})
+        } catch (error) {
+            console.error(error);
+        }
     },
 }

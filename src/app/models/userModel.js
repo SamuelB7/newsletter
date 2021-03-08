@@ -6,6 +6,6 @@ const userSchema = new mongoose.Schema({
     password: String,
     games: [String],
     rating: Number,
-})
+}, {collation: {locale:'pt', strength: 1}})
 
 module.exports = mongoose.model('User', userSchema)
