@@ -1,11 +1,11 @@
-const User = require('../models/userModel')
+const Admin = require('../models/adminModel')
 
 module.exports = {
     async index(req, res) {
         try {
-            let usersIndex = await User.find()
+            let index = await Admin.find()
 
-            return res.json(usersIndex)
+            return res.json(index)
         } catch (error) {
             console.error(eror);
         }
@@ -15,12 +15,12 @@ module.exports = {
         try {
             let {email} = req.body
 
-            let verify = await User.findOne({email})
+            let verify = await Admin.findOne({email})
             if(verify) return res.json({error: 'Usuário já cadastrado!'})
 
-            let user = await User.create(req.body)
+            let admin = await Admin.create(req.body)
             
-            return res.json(user)
+            return res.json(admin)
         } catch (error) {
             console.error(error);
         }
