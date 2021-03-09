@@ -26,10 +26,16 @@ module.exports = {
 
     async put(req, res) {
         try {
-            let email = req.body.email
-            let admin = await Admin.updateOne({email})
+            let admin = await Admin.updateOne(
+                {_id: req.body._id},
+                {
+                    name: req.body.name,
+                    email: req.body.email,
+                    password: req.body.password
+                }
+            )
 
-            return res.json()
+            return res.json('admin updated!')
         } catch (error) {
             console.error(error);
         }
@@ -37,7 +43,9 @@ module.exports = {
 
     async delete(req, res) {
         try {
-            
+            await Admin.deleteOne({_id: req.body._id})
+
+            return res.json('Admin deleted!')
         } catch (error) {
             console.error(error);
         }
@@ -45,7 +53,9 @@ module.exports = {
 
     async show(req, res) {
         try {
+            let admin = await Admin.findOne({_id: req.body._id})
 
+            return res.json({admin})
         } catch (error) {
             console.error(error);
         }
