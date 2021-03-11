@@ -1,12 +1,43 @@
 const Admin = require('../models/adminModel')
+const User = require('../models/userModel')
 const { hash } = require('bcryptjs')
+const mailer = require('../../../lib/mailer')
 
 module.exports = {
     async home(req, res) {
         try {
-            
+            return res.render('admin/home')
         } catch (error) {
             console.error(eror);
+        }
+    },
+
+    async newsletterForm(req, res) {
+        try {
+            return res.render('admin/newsletter-form')
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    async sendNewsletter(req, res) {
+        try {
+            let emailText = req.body.text
+
+            let emailList = await User.find({}, {email: 1, _id: 0})
+
+            for(let i = 0; i < 2; i++) {
+                await mailer.sendMail({
+                    to: emailList[i].email,
+                    from: 'no-reply@newsletter.com',
+                    subject: 'Sua newsletter semanal!',
+                    text: emailText
+                })
+            }
+
+            return res.render('admin/newsletter-form', {success: 'Newsletter enviada com sucesso!'})
+        } catch (error) {
+            console.error(error);
         }
     },
     

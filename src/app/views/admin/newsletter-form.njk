@@ -1,0 +1,15 @@
+{%extends 'layout.njk'%}
+
+{%block content%}
+<div id="newsletter-form">
+    <h2 class="text-center">Nova newsletter</h2>
+    <form class="form-group w-50 mx-auto" action="/admin/send-newsletter" method="POST">
+        <div class="mb-3">
+            <label for="text" class="form-label">Corpo do email</label>
+            <input id="text-input" type="text" class="form-control" id="text" name="text" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Enviar newsletter</button>
+    </form>
+</div>
+{%endblock content%}

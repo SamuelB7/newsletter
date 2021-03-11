@@ -1,0 +1,23 @@
+{%extends 'layout.njk'%}
+
+{%block content%}
+<div id="user-register">
+    <h2 class="text-center">Cancelar Newsletter</h2>
+    <form id="form-delete" class="form-group w-50 mx-auto" action="/user?_method=DELETE" method="POST">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <button type="submit" class="btn btn-danger">Cancelar recebimento de emails</button>
+    </form> 
+</div>
+<script>
+    const formDelete = document.querySelector("#form-delete")
+    formDelete.addEventListener("submit", function(event) {
+    const confirmation = confirm("Você tem certeza da sua decisão?")
+    if(!confirmation) {
+        event.preventDefault()
+    }
+})
+</script>
+{%endblock content%}

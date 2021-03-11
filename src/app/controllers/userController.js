@@ -1,11 +1,19 @@
 const User = require('../models/userModel')
 
 module.exports = {
-    async registerPage(req, res) {
+    async subscribePage(req, res) {
         try {
-            return res.render('public/register')
+            return res.render('public/subscribe')
         } catch (error) {
             console.error(eror);
+        }
+    },
+
+    async unsubPage(req, res) {
+        try {
+            return res.render('public/unsubscribe')
+        } catch (error) {
+            console.error(error);
         }
     },
     
@@ -14,18 +22,18 @@ module.exports = {
             const keys = Object.keys(req.body) 
             for(key of keys) {
                 if (req.body[key] =='') {
-                    return res.render('public/register', {error: 'Por favor, preencha todos os campos!'})
+                    return res.render('public/subscribe', {error: 'Por favor, preencha todos os campos!'})
                 }
             }
 
             let {email} = req.body
 
             let verify = await User.findOne({email})
-            if(verify) return res.render('public/register', {error: 'Usuário já cadastrado!'})
+            if(verify) return res.render('public/subscribe', {error: 'Usuário já cadastrado!'})
 
             let user = await User.create(req.body)
             
-            return res.render('public/register', {success: 'Cadastro realizado com sucesso! Fique atento ao seu email'})
+            return res.render('public/subscribe', {success: 'Cadastro realizado com sucesso! Fique atento ao seu email'})
         } catch (error) {
             console.error(error);
         }
@@ -48,8 +56,13 @@ module.exports = {
     },
 
     async delete(req, res) {
-        await User.deleteOne({_id: req.body._id})
+        let user = await User.findOne({email: req.body.email})
+        if(!user) {
+            return res.render('public/unsubscribe', {error: 'Email não encontrado!'})
+        }
 
-        return res.json('user deleted')
+        await User.deleteOne({email: req.body.email})
+
+        return res.render('public/subscribe', {success: 'Seu email foi removido da nossa lista'})
     }
 }
