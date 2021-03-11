@@ -1,11 +1,9 @@
 const User = require('../models/userModel')
 
 module.exports = {
-    async index(req, res) {
+    async registerPage(req, res) {
         try {
-            let usersIndex = await User.find()
-
-            return res.json(usersIndex)
+            return res.render('public/register')
         } catch (error) {
             console.error(eror);
         }
@@ -13,14 +11,21 @@ module.exports = {
     
     async post(req, res) {
         try {
+            const keys = Object.keys(req.body) 
+            for(key of keys) {
+                if (req.body[key] =='') {
+                    return res.render('public/register', {error: 'Por favor, preencha todos os campos!'})
+                }
+            }
+
             let {email} = req.body
 
             let verify = await User.findOne({email})
-            if(verify) return res.json({error: 'Usuário já cadastrado!'})
+            if(verify) return res.render('public/register', {error: 'Usuário já cadastrado!'})
 
             let user = await User.create(req.body)
             
-            return res.json(user)
+            return res.render('public/register', {success: 'Cadastro realizado com sucesso! Fique atento ao seu email'})
         } catch (error) {
             console.error(error);
         }
@@ -36,7 +41,7 @@ module.exports = {
                 }
             )
 
-            return res.json('user updated')
+            return res.json(user)
         } catch (error) {
             console.error(error);
         }

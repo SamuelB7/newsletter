@@ -1,4 +1,5 @@
 const Admin = require('../models/adminModel')
+const { hash } = require('bcryptjs')
 
 module.exports = {
     async home(req, res) {
@@ -11,10 +12,13 @@ module.exports = {
     
     async post(req, res) {
         try {
-            let {email} = req.body
+            let {email, password} = req.body
 
             let verify = await Admin.findOne({email})
             if(verify) return res.json({error: 'Admin já cadastrado!'})
+
+            const passwordHash = await hash(password, 7)
+            req.body.password = passwordHash
 
             let admin = await Admin.create(req.body)
             
@@ -26,6 +30,8 @@ module.exports = {
 
     async put(req, res) {
         try {
+
+
             let admin = await Admin.updateOne(
                 {_id: req.body._id},
                 {
@@ -35,7 +41,7 @@ module.exports = {
                 }
             )
 
-            return res.json('admin updated!')
+            return res.json(admin)
         } catch (error) {
             console.error(error);
         }
