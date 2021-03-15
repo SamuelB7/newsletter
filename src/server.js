@@ -3,7 +3,7 @@ const routes = require('./routes')
 const mongoose = require('mongoose')
 const nunjucks = require('nunjucks')
 const methodOverride = require('method-override')
-const session = require('../config/session')
+const session = require('./config/session')
 
 require('dotenv/config')
 

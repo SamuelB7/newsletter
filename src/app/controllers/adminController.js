@@ -1,7 +1,7 @@
 const Admin = require('../models/adminModel')
 const User = require('../models/userModel')
 const { hash } = require('bcryptjs')
-const mailer = require('../../../lib/mailer')
+const mailer = require('../../lib/mailer')
 
 module.exports = {
     async home(req, res) {
@@ -31,8 +31,7 @@ module.exports = {
                     to: emailList[i].email,
                     from: 'no-reply@newsletter.com',
                     subject: 'Sua newsletter semanal!',
-                    text: emailText,
-                    html: '<a href="/user/unsub" target="_blank">Clique aqui para cancelar a newsletter<a/>'
+                    html: `${emailText} <br><br> <a href="http://localhost:8000/user/unsub" target="_blank">Clique aqui para cancelar a newsletter<a/>`
                 })
             }
 
