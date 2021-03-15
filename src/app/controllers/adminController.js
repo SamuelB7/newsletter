@@ -31,7 +31,8 @@ module.exports = {
                     to: emailList[i].email,
                     from: 'no-reply@newsletter.com',
                     subject: 'Sua newsletter semanal!',
-                    text: emailText
+                    text: emailText,
+                    html: '<a href="/user/unsub" target="_blank">Clique aqui para cancelar a newsletter<a/>'
                 })
             }
 
